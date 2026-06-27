@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>École Numérique - Gestion Scolaire Burkina Faso</title>
+    <!-- Styles extracted to css/styles.css -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="login-logo-icon"><svg viewBox="0 0 64 64" width="42" height="42" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red book (left, slightly tilted) -->
+  <g transform="translate(6,8) rotate(-6,10,24)">
+    <rect x="2" y="0" width="16" height="40" rx="2" fill="#DC2626"/>
+    <rect x="2" y="0" width="3" height="40" rx="1" fill="#991B1B"/>
+    <rect x="5" y="4" width="10" height="2" rx="1" fill="#FCA5A5"/>
+    <rect x="5" y="8" width="8" height="2" rx="1" fill="#FCA5A5"/>
+  </g>
+  <!-- Yellow book (centre, upright) -->
+  <g transform="translate(22,6)">
+    <rect x="2" y="0" width="18" height="44" rx="2" fill="#EAB308"/>
+    <rect x="2" y="0" width="3.5" height="44" rx="1" fill="#A16207"/>
+    <rect x="6" y="5" width="11" height="2.5" rx="1" fill="#FEF08A"/>
+    <rect x="6" y="10" width="8" height="2.5" rx="1" fill="#FEF08A"/>
+  </g>
+  <!-- Green book (right, slightly tilted) -->
+  <g transform="translate(40,9) rotate(5,10,22)">
+    <rect x="1" y="0" width="17" height="38" rx="2" fill="#16A34A"/>
+    <rect x="1" y="0" width="3" height="38" rx="1" fill="#14532D"/>
+    <rect x="4.5" y="4" width="10" height="2" rx="1" fill="#86EFAC"/>
+    <rect x="4.5" y="8" width="7" height="2" rx="1" fill="#86EFAC"/>
+  </g>
+</svg></div>
+                <h1 class="login-title">École Numérique</h1>
+                <p class="login-subtitle">Système de Gestion Scolaire - Burkina Faso</p>
+            </div>
+            
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Sélectionnez votre rôle</label>
+                    <div class="role-selector">
+                        <div class="role-option">
+                            <input type="radio" id="role-admin" name="role" value="admin" checked>
+                            <label for="role-admin" class="role-label">
+                                <div class="role-icon">👨‍💼</div>
+                                <div class="role-name">Administrateur</div>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="role-teacher" name="role" value="teacher">
+                            <label for="role-teacher" class="role-label">
+                                <div class="role-icon">👨‍🏫</div>
+                                <div class="role-name">Enseignant</div>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="role-student" name="role" value="student">
+                            <label for="role-student" class="role-label">
+                                <div class="role-icon">👨‍🎓</div>
+                                <div class="role-name">Élève</div>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="role-econome" name="role" value="econome">
+                            <label for="role-econome" class="role-label">
+                                <div class="role-icon">💰</div>
+                                <div class="role-name">Économe</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username" class="form-label">Nom d'utilisateur</label>
+                    <input type="text" id="username" class="form-input" placeholder="Entrez votre nom d'utilisateur" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" id="password" class="form-input" placeholder="Entrez votre mot de passe" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+            </form>
+            
+            <div class="demo-credentials">
+                <div class="demo-title">
+                    <span>ℹ️</span>
+                    Identifiants de démonstration
+                </div>
+                <ul class="demo-list">
+                    <li><strong>Admin:</strong> admin / admin123</li>
+                    <li><strong>Enseignant:</strong> teacher / teach123</li>
+                    <li><strong>Parent:</strong> parent / parent123</li>
+                    <li><strong>Économe:</strong> econome / econ123</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app-container" class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><svg viewBox="0 0 64 64" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red book (left, slightly tilted) -->
+  <g transform="translate(6,8) rotate(-6,10,24)">
+    <rect x="2" y="0" width="16" height="40" rx="2" fill="#DC2626"/>
+    <rect x="2" y="0" width="3" height="40" rx="1" fill="#991B1B"/>
+    <rect x="5" y="4" width="10" height="2" rx="1" fill="#FCA5A5"/>
+    <rect x="5" y="8" width="8" height="2" rx="1" fill="#FCA5A5"/>
+  </g>
+  <!-- Yellow book (centre, upright) -->
+  <g transform="translate(22,6)">
+    <rect x="2" y="0" width="18" height="44" rx="2" fill="#EAB308"/>
+    <rect x="2" y="0" width="3.5" height="44" rx="1" fill="#A16207"/>
+    <rect x="6" y="5" width="11" height="2.5" rx="1" fill="#FEF08A"/>
+    <rect x="6" y="10" width="8" height="2.5" rx="1" fill="#FEF08A"/>
+  </g>
+  <!-- Green book (right, slightly tilted) -->
+  <g transform="translate(40,9) rotate(5,10,22)">
+    <rect x="1" y="0" width="17" height="38" rx="2" fill="#16A34A"/>
+    <rect x="1" y="0" width="3" height="38" rx="1" fill="#14532D"/>
+    <rect x="4.5" y="4" width="10" height="2" rx="1" fill="#86EFAC"/>
+    <rect x="4.5" y="8" width="7" height="2" rx="1" fill="#86EFAC"/>
+  </g>
+</svg></div>
+                <span>École Numérique</span>
+            </div>
+            <p class="subtitle">Gestion Scolaire Complète</p>
+            
+            <div class="user-profile">
+                <div class="user-profile-header">
+                    <div class="user-profile-avatar" id="sidebar-avatar">👤</div>
+                    <div>
+                        <div class="user-profile-name" id="sidebar-username">Utilisateur</div>
+                        <div class="user-profile-role" id="sidebar-role">Rôle</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu" id="nav-menu">
+                    <!-- Navigation items populated by JavaScript -->
+                </ul>
+            </nav>
+            
+            <div class="logout-section">
+                <button class="refresh-link" id="refresh-btn" onclick="refreshPage()">
+                    <span class="nav-icon">🔄</span>
+                    <span>Rafraîchir</span>
+                </button>
+                <a href="#" class="logout-link" onclick="handleLogout(); return false;">
+                    <span class="nav-icon">🚪</span>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Alert -->
+            <div id="alert" class="alert">
+                <span id="alert-message"></span>
+            </div>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="header">
+                    <h1 class="header-title">Tableau de Bord</h1>
+                </div>
+                
+                <div class="stats-grid" id="stats-container">
+                    <!-- Stats populated by JavaScript -->
+                </div>
+                
+                <!-- Admin Charts Section -->
+                <div id="admin-charts-section" style="display: none;">
+                    <!-- Charts Row -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Average per Class Chart -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Moyenne par Classe</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="averagePerClassChart" style="max-height: 300px;"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- CEP Success Rate Chart -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Admis(e) CEP par Sexe</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="cepResultsChart" style="max-height: 300px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance Trends -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Évolution des Performances (3 dernières années)</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="performanceTrendChart" style="max-height: 250px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Parent's Children Overview -->
+                <div id="parent-children-overview" style="display: none;">
+                    <!-- Children cards will be populated by JavaScript -->
+                </div>
+                
+                <div class="card" id="welcome-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Bienvenue dans le système de gestion scolaire</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Utilisez le menu de navigation pour accéder aux différentes fonctionnalités selon votre rôle.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Students Section -->
+            <section id="students-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">Ma Classe</h1>
+                </div>
+                
+                <!-- Student Management (for Teachers and Admins) -->
+                <div class="card" id="student-management-card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 class="card-title">Gestion des Élèves</h3>
+                        <button class="btn btn-primary" onclick="openStudentModal()" style="width: auto; padding: 0.75rem 1.5rem;" id="add-student-btn">
+                            + Enregistrer un Élève
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <!-- Class Selection (for Admins) -->
+                        <div style="margin-bottom: 2rem;" id="students-class-selector-container">
+                            <label class="form-label">Sélectionner une classe</label>
+                            <select class="form-input" id="students-class-selector" onchange="loadStudentsClassData()" style="padding: 0.75rem; max-width: 400px; font-size: 1rem; font-weight: 600;">
+                                <option value="">-- Sélectionner une classe --</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Class Info Card -->
+                        <div id="students-class-info-card" style="display: none; background: linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%); color: var(--white); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;">
+                                <div>
+                                    <div style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.25rem;">Classe</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700;" id="students-class-info-name">-</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.25rem;">Enseignant(e)</div>
+                                    <div style="font-size: 1.25rem; font-weight: 600;" id="students-class-info-teacher">-</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.25rem;">Sexe</div>
+                                    <div style="font-size: 1.25rem; font-weight: 600;" id="students-class-info-teacher-sex">-</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.25rem;">Nombre d'Élèves</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700;" id="students-class-info-count">-</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.25rem;">Niveau</div>
+                                    <div style="font-size: 1.25rem; font-weight: 600;" id="students-class-info-level">-</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Students Table -->
+                        <div id="students-table-display">
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead id="students-table-header">
+                                        <!-- Table header will be populated by JavaScript based on role -->
+                                    </thead>
+                                    <tbody id="students-list-body">
+                                        <tr>
+                                            <td colspan="7" style="padding: 3rem; text-align: center; color: var(--gray-text);">
+                                                <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                                                <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">Chargement...</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Grades Section -->
+            <section id="grades-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">Notes</h1>
+                </div>
+
+                <!-- Tabs -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                    <button id="tab-notes" onclick="switchGradeTab('notes')" style="padding: 0.75rem 1.75rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; background: linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%); color: var(--white);">📝 Saisie des Notes</button>
+                    <button id="tab-tests" onclick="switchGradeTab('tests')" style="padding: 0.75rem 1.75rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; background: var(--light-bg); color: var(--dark-text);">📋 Évaluations Détaillées</button>
+                    <button id="tab-moyenne" onclick="switchGradeTab('moyenne')" style="padding: 0.75rem 1.75rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; background: var(--light-bg); color: var(--dark-text);">📊 Moyenne</button>
+                    <button id="tab-cep" onclick="switchGradeTab('cep')" style="padding: 0.75rem 1.75rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; background: var(--light-bg); color: var(--dark-text); display: none;">📋 Résultats CEP</button>
+                </div>
+
+                <!-- Tab: Saisie des Notes -->
+                <div id="tab-content-notes">
+                <!-- Grade Entry Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Enregistrer les Notes</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Matière</label>
+                                <select class="form-input" id="grade-subject" style="padding: 0.75rem;">
+                                    <option value="">Sélectionner une matière</option>
+                                    <option value="Mathématiques">Mathématiques</option>
+                                    <option value="Français">Français</option>
+                                    <option value="Sciences">Sciences</option>
+                                    <option value="Histoire">Histoire</option>
+                                    <option value="Géographie">Géographie</option>
+                                    <option value="Anglais">Anglais</option>
+                                    <option value="Éducation Physique">Éducation Physique</option>
+                                    <option value="Arts">Arts</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Type d'Évaluation</label>
+                                <select class="form-input" id="grade-type" style="padding: 0.75rem;">
+                                    <option value="Devoir">Devoir</option>
+                                    <option value="Interrogation">Interrogation</option>
+                                    <option value="Composition">Composition</option>
+                                    <option value="Examen">Examen</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Trimestre</label>
+                                <div id="grade-trimestre-badge" style="padding:0.75rem 1rem;background:linear-gradient(135deg,var(--earth) 0%,var(--savanna) 100%);color:#fff;border-radius:8px;font-weight:700;font-size:0.95rem;text-align:center;">—</div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-input" id="grade-date" style="padding: 0.75rem;">
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <p style="font-size: 0.875rem; color: var(--gray-text); margin: 0;">
+                                <strong>Instructions:</strong> Saisissez les notes sur 20. Laissez vide pour les élèves absents.
+                            </p>
+                        </div>
+                        
+                        <!-- Grades Table -->
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%); color: var(--white);">
+                                        <th style="padding: 1rem; text-align: left; border-radius: 8px 0 0 0;">#</th>
+                                        <th style="padding: 1rem; text-align: left;">Nom de l'Élève</th>
+                                        <th style="padding: 1rem; text-align: left;">Matricule</th>
+                                        <th style="padding: 1rem; text-align: center; width: 120px;">Note (/20)</th>
+                                        <th style="padding: 1rem; text-align: left; border-radius: 0 8px 0 0;">Observation</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="grades-table-body">
+                                    <tr>
+                                        <td colspan="5" style="padding: 2rem; text-align: center; color: var(--gray-text);">
+                                            Sélectionnez une matière pour commencer
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button class="btn btn-primary" onclick="saveGrades()" style="width: auto; padding: 0.75rem 2rem;">
+                                💾 Enregistrer les Notes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Tab: Phase 3 - Évaluations Détaillées -->
+                <div id="tab-content-tests" style="display:none;">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">Gestion des Évaluations</h3>
+                            <button class="btn btn-primary" onclick="openTestModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                                + Ajouter une Évaluation
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;">
+                                <select class="form-input" id="test-filter-student" onchange="filterTests()" style="flex:2;">
+                                    <option value="">Tous les élèves</option>
+                                </select>
+                                <select class="form-input" id="test-filter-subject" onchange="filterTests()" style="flex:1;">
+                                    <option value="">Toutes les matières</option>
+                                </select>
+                                <select class="form-input" id="test-filter-trimester" onchange="filterTests()" style="flex:1;">
+                                    <option value="">Tous les trimestres</option>
+                                    <option value="1">Trimestre 1</option>
+                                    <option value="2">Trimestre 2</option>
+                                    <option value="3">Trimestre 3</option>
+                                </select>
+                            </div>
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%;border-collapse:collapse;">
+                                    <thead>
+                                        <tr style="background:linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%);color:var(--white);">
+                                            <th style="padding:1rem;text-align:left;border-radius:8px 0 0 0;">Élève</th>
+                                            <th style="padding:1rem;text-align:left;">Matière</th>
+                                            <th style="padding:1rem;text-align:left;">Évaluation</th>
+                                            <th style="padding:1rem;text-align:center;">Type</th>
+                                            <th style="padding:1rem;text-align:center;">Trimestre</th>
+                                            <th style="padding:1rem;text-align:center;">Note</th>
+                                            <th style="padding:1rem;text-align:left;">Date</th>
+                                            <th style="padding:1rem;text-align:center;border-radius:0 8px 0 0;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tests-table-body">
+                                        <tr><td colspan="8" style="padding:2rem;text-align:center;color:var(--gray-text);">Aucune évaluation enregistrée</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Moyenne -->
+                <div id="tab-content-moyenne" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Moyennes de l'Élève</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 250px;">
+                                <label class="form-label">Sélectionner un Élève</label>
+                                <select class="form-input" id="moyenne-student-select" onchange="loadMoyennes()" style="padding: 0.75rem; font-size: 1rem;">
+                                    <option value="">— Choisir un élève —</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Trimestre</label>
+                                <select class="form-input" id="moyenne-trimestre-filter" onchange="loadMoyennes()" style="padding: 0.75rem; font-size: 1rem; min-width: 180px;">
+                                    <option value="trimester1">1er Trimestre</option>
+                                    <option value="trimester2">2e Trimestre</option>
+                                    <option value="trimester3">3e Trimestre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Student info banner -->
+                        <div id="moyenne-student-banner" style="display: none; background: linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%); color: var(--white); padding: 1rem 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-size: 0.85rem; opacity: 0.85;">Élève</div>
+                                <div style="font-size: 1.3rem; font-weight: 700;" id="moyenne-student-name">-</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.85rem; opacity: 0.85;">Matricule</div>
+                                <div style="font-size: 1.1rem; font-weight: 600;" id="moyenne-student-matricule">-</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.85rem; opacity: 0.85;">Classe</div>
+                                <div style="font-size: 1.1rem; font-weight: 600;" id="moyenne-student-class">-</div>
+                            </div>
+                            <div style="text-align: right; background: rgba(255,255,255,0.15); padding: 0.5rem 1rem; border-radius: 8px;">
+                                <div style="font-size: 0.85rem; opacity: 0.85;">Moyenne Générale</div>
+                                <div style="font-size: 1.6rem; font-weight: 700;" id="moyenne-generale">-</div>
+                            </div>
+                        </div>
+
+                        <!-- Moyennes table -->
+                        <div id="moyenne-table-container" style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%); color: var(--white);">
+                                        <th style="padding: 1rem; text-align: left; border-radius: 8px 0 0 0;">#</th>
+                                        <th style="padding: 1rem; text-align: left;">Matière</th>
+                                        <th style="padding: 1rem; text-align: left;">Type d'Évaluation</th>
+                                        <th style="padding: 1rem; text-align: center;">Notes</th>
+                                        <th style="padding: 1rem; text-align: center; border-radius: 0 8px 0 0;">Moyenne (/20)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="moyenne-table-body">
+                                    <tr>
+                                        <td colspan="5" style="padding: 3rem; text-align: center; color: var(--gray-text);">
+                                            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📊</div>
+                                            <div style="font-size: 1rem; font-weight: 600;">Sélectionnez un élève pour voir ses moyennes</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Tab: Résultats CEP (admin only) -->
+                <div id="tab-content-cep" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Résultats CEP — Élèves CM2</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Summary bar -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:linear-gradient(135deg,var(--earth) 0%,var(--savanna) 100%);color:#fff;padding:1rem 1.25rem;border-radius:12px;text-align:center;">
+                                <div style="font-size:0.8rem;opacity:0.85;text-transform:uppercase;letter-spacing:0.05em;">Admis CEP</div>
+                                <div style="font-size:2rem;font-weight:700;" id="cep-admis-count">0</div>
+                            </div>
+                            <div style="background:var(--light-bg);border:1px solid var(--border);padding:1rem 1.25rem;border-radius:12px;text-align:center;">
+                                <div style="font-size:0.8rem;color:var(--gray-text);text-transform:uppercase;letter-spacing:0.05em;">Total CM2</div>
+                                <div style="font-size:2rem;font-weight:700;color:var(--dark-text);" id="cep-total-count">0</div>
+                            </div>
+                            <div style="background:var(--light-bg);border:1px solid var(--border);padding:1rem 1.25rem;border-radius:12px;text-align:center;">
+                                <div style="font-size:0.8rem;color:var(--gray-text);text-transform:uppercase;letter-spacing:0.05em;">Taux de Réussite</div>
+                                <div style="font-size:2rem;font-weight:700;color:var(--earth);" id="cep-taux">0%</div>
+                            </div>
+                        </div>
+
+                        <!-- CEP table -->
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;">
+                                <thead>
+                                    <tr style="background:linear-gradient(135deg,var(--earth) 0%,var(--savanna) 100%);color:#fff;">
+                                        <th style="padding:0.9rem 1rem;text-align:left;border-radius:8px 0 0 0;width:50px;">#</th>
+                                        <th style="padding:0.9rem 1rem;text-align:left;">Nom de l'Élève</th>
+                                        <th style="padding:0.9rem 1rem;text-align:left;">Matricule</th>
+                                        <th style="padding:0.9rem 1rem;text-align:center;">Sexe</th>
+                                        <th style="padding:0.9rem 1rem;text-align:center;border-radius:0 8px 0 0;width:180px;">Admis(e) CEP</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cep-table-body">
+                                    <tr><td colspan="5" style="padding:3rem;text-align:center;color:var(--gray-text);">Chargement…</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+            </section>
+            
+            <!-- Reports Section -->
+            <section id="reports-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title" id="reports-title">Rapports et Bulletins</h1>
+                </div>
+                
+                <!-- Admin View: Export Options -->
+                <div id="admin-reports-view" style="display:none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">📊 Exportation de Données</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;">
+                                <div style="padding:1.5rem;border:2px solid var(--border);border-radius:12px;">
+                                    <div style="font-size:2rem;margin-bottom:1rem;">👨‍🎓</div>
+                                    <h4 style="margin-bottom:0.5rem;color:var(--dark-text);">Liste des Élèves</h4>
+                                    <p style="color:var(--gray-text);font-size:0.85rem;margin-bottom:1rem;">Exporter la liste complète des élèves avec toutes leurs informations</p>
+                                    <button onclick="exportStudentsToCSV()" class="btn btn-primary" style="width:100%;padding:0.75rem;">
+                                        📥 Exporter en CSV
+                                    </button>
+                                </div>
+                                
+                                <div style="padding:1.5rem;border:2px solid var(--border);border-radius:12px;">
+                                    <div style="font-size:2rem;margin-bottom:1rem;">📝</div>
+                                    <h4 style="margin-bottom:0.5rem;color:var(--dark-text);">Notes et Moyennes</h4>
+                                    <p style="color:var(--gray-text);font-size:0.85rem;margin-bottom:1rem;">Exporter toutes les notes et moyennes par trimestre</p>
+                                    <button onclick="exportGradesToCSV()" class="btn btn-primary" style="width:100%;padding:0.75rem;">
+                                        📥 Exporter en CSV
+                                    </button>
+                                </div>
+                                
+                                <div style="padding:1.5rem;border:2px solid var(--border);border-radius:12px;">
+                                    <div style="font-size:2rem;margin-bottom:1rem;">📋</div>
+                                    <h4 style="margin-bottom:0.5rem;color:var(--dark-text);">Absences</h4>
+                                    <p style="color:var(--gray-text);font-size:0.85rem;margin-bottom:1rem;">Exporter le registre complet des absences</p>
+                                    <button onclick="exportAbsencesToCSV()" class="btn btn-primary" style="width:100%;padding:0.75rem;">
+                                        📥 Exporter en CSV
+                                    </button>
+                                </div>
+                                
+                                <div style="padding:1.5rem;border:2px solid var(--border);border-radius:12px;">
+                                    <div style="font-size:2rem;margin-bottom:1rem;">💰</div>
+                                    <h4 style="margin-bottom:0.5rem;color:var(--dark-text);">Paiements</h4>
+                                    <p style="color:var(--gray-text);font-size:0.85rem;margin-bottom:1rem;">Exporter l'historique complet des paiements</p>
+                                    <button onclick="exportPaymentsToCSV()" class="btn btn-primary" style="width:100%;padding:0.75rem;">
+                                        📥 Exporter en CSV
+                                    </button>
+                                </div>
+                                
+                                <div style="padding:1.5rem;border:2px solid var(--border);border-radius:12px;">
+                                    <div style="font-size:2rem;margin-bottom:1rem;">👨‍🏫</div>
+                                    <h4 style="margin-bottom:0.5rem;color:var(--dark-text);">Enseignants</h4>
+                                    <p style="color:var(--gray-text);font-size:0.85rem;margin-bottom:1rem;">Exporter la liste des enseignants et leurs classes</p>
+                                    <button onclick="exportTeachersToCSV()" class="btn btn-primary" style="width:100%;padding:0.75rem;">
+                                        📥 Exporter en CSV
+                                    </button>
+                                </div>
+                                
+                                <div style="padding:1.5rem;border:2px solid var(--border);border-radius:12px;">
+                                    <div style="font-size:2rem;margin-bottom:1rem;">💾</div>
+                                    <h4 style="margin-bottom:0.5rem;color:var(--dark-text);">Sauvegarde Complète</h4>
+                                    <p style="color:var(--gray-text);font-size:0.85rem;margin-bottom:1rem;">Sauvegarder toutes les données de l'école</p>
+                                    <button onclick="exportBackup()" class="btn btn-primary" style="width:100%;padding:0.75rem;background:var(--green);">
+                                        💾 Télécharger Sauvegarde
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="margin-top:1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">📤 Restaurer les Données</h3>
+                        </div>
+                        <div class="card-body">
+                            <p style="color:var(--gray-text);margin-bottom:1rem;">Restaurer une sauvegarde précédente (fichier JSON)</p>
+                            <input type="file" id="restore-file-input" accept=".json" class="form-input" style="margin-bottom:1rem;">
+                            <button onclick="importBackup()" class="btn-secondary" style="background:var(--ochre);color:var(--white);padding:0.75rem 1.5rem;">
+                                📤 Restaurer la Sauvegarde
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Parent View: Children's Reports -->
+                <div id="parent-reports-view" style="display: none;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                
+                <!-- Default View -->
+                <div id="default-reports-view">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Consultation des Rapports</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Fonctionnalité de consultation des rapports et bulletins.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Absences Section -->
+            <section id="absences-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title" id="absences-title">Absences</h1>
+                </div>
+
+                <!-- Teacher: log + list -->
+                <div id="absences-teacher-view">
+                    <!-- Phase 2: Enhanced Absence/Tardiness Recording -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Enregistrer une Absence ou un Retard</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.25rem;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Type</label>
+                                    <select class="form-input" id="abs-type" style="padding:0.75rem;">
+                                        <option value="Absence">Absence</option>
+                                        <option value="Retard">Retard</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Élève</label>
+                                    <select class="form-input" id="abs-student-select" style="padding:0.75rem;"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-input" id="abs-date" style="padding:0.75rem;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Horaire</label>
+                                    <select class="form-input" id="abs-time" style="padding:0.75rem;">
+                                        <option value="Matin">Matin</option>
+                                        <option value="Soir">Soir</option>
+                                        <option value="Journée entière">Journée entière</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Matière</label>
+                                    <select class="form-input" id="abs-matiere" style="padding:0.75rem;">
+                                        <option value="">Sélectionner</option>
+                                        <option value="Mathématiques">Mathématiques</option>
+                                        <option value="Français">Français</option>
+                                        <option value="Sciences">Sciences</option>
+                                        <option value="Histoire">Histoire</option>
+                                        <option value="Géographie">Géographie</option>
+                                        <option value="Anglais">Anglais</option>
+                                        <option value="Éducation Physique">Éducation Physique</option>
+                                        <option value="Arts">Arts</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Statut</label>
+                                    <select class="form-input" id="abs-status" style="padding:0.75rem;">
+                                        <option value="Non justifié">Non justifié</option>
+                                        <option value="Justifié">Justifié</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label class="form-label">Motif / Justification (optionnel)</label>
+                                <textarea class="form-input" id="abs-reason" rows="2" placeholder="Ex: Maladie, Certificat médical fourni..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" onclick="saveAbsence()" style="width:auto;padding:0.7rem 1.75rem;">📋 Enregistrer</button>
+                        </div>
+                    </div>
+                    <!-- Teacher's own class absences list -->
+                    <div class="card" style="margin-top:1.25rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">Liste des Absences — Ma Classe</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%;border-collapse:collapse;">
+                                    <thead>
+                                        <tr style="background:linear-gradient(135deg,var(--earth) 0%,var(--savanna) 100%);color:#fff;">
+                                            <th style="padding:0.85rem 1rem;text-align:left;border-radius:8px 0 0 0;">#</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Élève</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Matricule</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Date</th>
+                                            <th style="padding:0.85rem 1rem;text-align:center;">Horaire</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Matière</th>
+                                            <th style="padding:0.85rem 1rem;text-align:center;border-radius:0 8px 0 0;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="abs-teacher-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin: all students summary -->
+                <div id="absences-admin-view" style="display:none;">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">Absences par Élève</h3>
+                            <select id="abs-admin-class-filter" class="form-input" style="width:auto;padding:0.5rem 1rem;" onchange="loadAbsencesAdmin()">
+                                <option value="">Toutes les classes</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%;border-collapse:collapse;">
+                                    <thead>
+                                        <tr style="background:linear-gradient(135deg,var(--earth) 0%,var(--savanna) 100%);color:#fff;">
+                                            <th style="padding:0.85rem 1rem;text-align:left;border-radius:8px 0 0 0;">#</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Élève</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Matricule</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Classe</th>
+                                            <th style="padding:0.85rem 1rem;text-align:center;">Total Absences</th>
+                                            <th style="padding:0.85rem 1rem;text-align:center;border-radius:0 8px 0 0;">Détails</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="abs-admin-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Detail panel (appears below table when Détails clicked) -->
+                    <div id="abs-admin-detail" style="display:none;margin-top:1.25rem;"></div>
+                </div>
+
+                <!-- Parent: own children only -->
+                <div id="absences-parent-view" style="display:none;">
+                    <div id="abs-parent-cards"></div>
+                </div>
+            </section>
+
+            <!-- Admin Section -->
+            <section id="admin-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">Registration Enseignant</h1>
+                </div>
+
+                <!-- Teacher Management -->
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 class="card-title">Gestion des Enseignants et Attribution des Classes</h3>
+                        <button class="btn btn-primary" onclick="openTeacherModal()" style="width: auto; padding: 0.75rem 1.5rem;">
+                            + Ajouter un Enseignant
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid var(--ochre);">
+                            <p style="margin: 0; color: var(--gray-text); font-size: 0.9rem;">
+                                <strong>📌 Important:</strong> Chaque classe doit avoir un enseignant assigné. L'enseignant assigné sera affiché automatiquement dans la vue des élèves.
+                            </p>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%); color: var(--white);">
+                                        <th style="padding: 1rem; text-align: left; border-radius: 8px 0 0 0;">Nom de l'Enseignant</th>
+                                        <th style="padding: 1rem; text-align: left;">Matricule</th>
+                                        <th style="padding: 1rem; text-align: center;">Sexe</th>
+                                        <th style="padding: 1rem; text-align: left;">📞 Téléphone</th>
+                                        <th style="padding: 1rem; text-align: left;">✉️ Email</th>
+                                        <th style="padding: 1rem; text-align: left;">Nom d'utilisateur</th>
+                                        <th style="padding: 1rem; text-align: left;">Classe Assignée</th>
+                                        <th style="padding: 1rem; text-align: center;">Nb. Élèves</th>
+                                        <th style="padding: 1rem; text-align: center; border-radius: 0 8px 0 0;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-teachers-body">
+                                    <tr>
+                                        <td colspan="9" style="padding: 2rem; text-align: center; color: var(--gray-text);">Chargement...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Classes without Teachers Warning -->
+                        <div id="unassigned-classes-warning" style="display: none; background: rgba(212, 95, 59, 0.1); border: 2px solid var(--terracotta); border-radius: 8px; padding: 1rem; margin-top: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.5rem;">⚠️</span>
+                                <strong style="color: var(--terracotta);">Classes sans enseignant assigné:</strong>
+                            </div>
+                            <div id="unassigned-classes-list" style="margin-left: 2.25rem; color: var(--gray-text);"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Bulletin Section -->
+            <section id="bulletin-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">Bulletin</h1>
+                </div>
+
+                <!-- Selectors -->
+                <div class="card" id="bulletin-selectors">
+                    <div class="card-body">
+                        <!-- Phase 2: Enhanced Bulletin Options -->
+                        <div style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-end;">
+                            <div class="form-group" style="margin-bottom:0;flex:1;min-width:200px;">
+                                <label class="form-label">Classe</label>
+                                <select class="form-input" id="bulletin-class-select" onchange="bulletinClassChanged()" style="padding:0.75rem;">
+                                    <option value="">— Choisir une classe —</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;flex:1;min-width:250px;">
+                                <label class="form-label">Élève</label>
+                                <select class="form-input" id="bulletin-student-select" onchange="loadBulletin()" style="padding:0.75rem;" disabled>
+                                    <option value="">— Choisir un élève —</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;flex:0.8;min-width:150px;">
+                                <label class="form-label">Trimestre</label>
+                                <select class="form-input" id="bulletin-trimester-select" onchange="loadBulletin()" style="padding:0.75rem;">
+                                    <option value="all">Toute l'année</option>
+                                    <option value="1">1er Trimestre</option>
+                                    <option value="2">2e Trimestre</option>
+                                    <option value="3">3e Trimestre</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" id="bulletin-print-btn" onclick="printBulletin()" style="padding:0.75rem 1.75rem;opacity:0.4;pointer-events:none;" disabled>🖨️ Imprimer</button>
+                        </div>
+                        <div style="margin-top:1rem;display:flex;gap:1.5rem;">
+                            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                <input type="checkbox" id="bulletin-show-signature" checked>
+                                <span style="font-size:0.9rem;color:var(--gray-text);">Afficher la signature du directeur</span>
+                            </label>
+                            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                <input type="checkbox" id="bulletin-show-logo" checked>
+                                <span style="font-size:0.9rem;color:var(--gray-text);">Afficher le logo (filigrane)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Print-ready Bulletin Card -->
+                <div id="bulletin-card" style="display:none;margin-top:1.5rem;">
+                    <div id="bulletin-printable" style="background:#fff;border-radius:12px;box-shadow:var(--shadow-md);max-width:900px;margin:0 auto;overflow:hidden;position:relative;">
+                        <!-- Watermark Logo -->
+                        <div id="bulletin-watermark" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;opacity:0.05;z-index:0;pointer-events:none;display:none;">
+                            <img id="bulletin-watermark-img" src="" style="width:100%;height:100%;object-fit:contain;">
+                        </div>
+                        <!-- Header band -->
+                        <div style="background:linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%);padding:1.75rem 2rem;color:#fff;position:relative;">
+                            <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:rgba(255,255,255,0.06);border-radius:0 0 0 120px;"></div>
+                            <div style="display:flex;justify-content:space-between;align-items:start;position:relative;z-index:1;">
+                                <div>
+                                    <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;opacity:0.7;margin-bottom:0.25rem;">École Numérique — Burkina Faso</div>
+                                    <div style="font-size:1.6rem;font-weight:700;" id="bulletin-title">Bulletin de l'Élève</div>
+                                </div>
+                                <div style="text-align:right;font-size:0.82rem;opacity:0.8;line-height:1.7;" id="bulletin-meta"></div>
+                            </div>
+                        </div>
+
+                        <!-- Student info strip -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:2px solid var(--border);" id="bulletin-info-strip">
+                            <!-- filled by JS -->
+                        </div>
+
+                        <!-- Trimester table -->
+                        <div style="padding:0;">
+                            <table style="width:100%;border-collapse:collapse;" id="bulletin-table">
+                                <thead>
+                                    <tr style="background:var(--light-bg);">
+                                        <th style="padding:0.85rem 1rem;text-align:left;font-weight:700;color:var(--earth);border-bottom:2px solid var(--border);width:38%;">Matière</th>
+                                        <th style="padding:0.85rem 0.75rem;text-align:center;font-weight:700;color:var(--earth);border-bottom:2px solid var(--border);border-left:1px solid var(--border);width:20%;font-size:0.88rem;">1er Trimestre</th>
+                                        <th style="padding:0.85rem 0.75rem;text-align:center;font-weight:700;color:var(--earth);border-bottom:2px solid var(--border);border-left:1px solid var(--border);width:20%;font-size:0.88rem;">2e Trimestre</th>
+                                        <th style="padding:0.85rem 0.75rem;text-align:center;font-weight:700;color:var(--earth);border-bottom:2px solid var(--border);border-left:1px solid var(--border);width:22%;font-size:0.88rem;">3e Trimestre</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bulletin-tbody">
+                                    <!-- filled by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Phase 2: Signature Section -->
+                        <div id="bulletin-signature-section" style="padding:2rem;display:none;">
+                            <div style="display:flex;justify-content:flex-end;">
+                                <div style="text-align:center;">
+                                    <div style="margin-bottom:0.5rem;font-size:0.9rem;color:var(--gray-text);">Le Directeur</div>
+                                    <div id="bulletin-headmaster-signature" style="min-height:80px;display:flex;align-items:center;justify-content:center;">
+                                        <!-- Signature image inserted by JS -->
+                                    </div>
+                                    <div style="margin-top:0.5rem;font-weight:600;color:var(--dark-text);" id="bulletin-headmaster-name"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="padding:1rem 2rem;background:var(--light-bg);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:var(--gray-text);">
+                            <span>École Numérique — Système de Gestion Scolaire</span>
+                            <span id="bulletin-date-print"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title" id="schedule-title">Emploi du Temps</h1>
+                </div>
+
+                <!-- ADMIN VIEW -->
+                <div id="schedule-admin-view">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+                            <h3 class="card-title">Configuration — Emploi du Temps</h3>
+                            <div style="display:flex;gap:1rem;align-items:center;">
+                                <select class="form-input" id="schedule-class-select" onchange="loadScheduleAdmin()" style="width:auto;padding:0.6rem 1rem;"></select>
+                                <button class="btn btn-primary" onclick="saveSchedule()" style="padding:0.6rem 1.5rem;width:auto;">💾 Sauvegarder</button>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding-top:0;">
+                            <div style="overflow-x:auto;">
+                                <table id="schedule-admin-table" style="width:100%;border-collapse:collapse;min-width:750px;"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEACHER VIEW -->
+                <div id="schedule-teacher-view" style="display:none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" id="schedule-teacher-heading">Mon Emploi du Temps</h3>
+                        </div>
+                        <div class="card-body" style="padding-top:0;">
+                            <div style="overflow-x:auto;">
+                                <table id="schedule-teacher-table" style="width:100%;border-collapse:collapse;min-width:750px;"></table>
+                            </div>
+                            <!-- Légende -->
+                            <div id="schedule-legend" style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payments Section -->
+            <section id="payments-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">Gestion des Paiements</h1>
+                </div>
+
+                <!-- ECONOME VIEW: record form + all payments list -->
+                <div id="payments-econome-view">
+                    <!-- Phase 2: Enhanced Fee Management Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Configuration des Frais Scolaires par Classe</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:1rem;align-items:end;margin-bottom:1rem;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Classe</label>
+                                    <select class="form-input" id="fee-class-select" style="padding:0.75rem;"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Frais Total (FCFA)</label>
+                                    <input type="number" class="form-input" id="fee-amount" placeholder="Ex: 150000" min="0" style="padding:0.75rem;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Plan de Paiement</label>
+                                    <select class="form-input" id="fee-plan-type" style="padding:0.75rem;">
+                                        <option value="annual">Annuel</option>
+                                        <option value="trimester">Trimestriel</option>
+                                        <option value="monthly">Mensuel</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Date Limite</label>
+                                    <input type="date" class="form-input" id="fee-due-date" style="padding:0.75rem;">
+                                </div>
+                                <button class="btn btn-primary" onclick="saveFee()" style="width:auto;padding:0.75rem 1.5rem;">💾 Définir</button>
+                            </div>
+                            <div id="fee-current-display" style="margin-top:1rem;padding:1rem;background:var(--light-bg);border-radius:8px;display:none;">
+                                <div style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.25rem;">Frais actuels pour cette classe:</div>
+                                <div style="font-size:1.3rem;font-weight:700;color:var(--earth);" id="fee-current-value"></div>
+                                <div style="font-size:0.85rem;color:var(--gray-text);margin-top:0.5rem;" id="fee-plan-info"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2: Fee Exemptions/Scholarships -->
+                    <div class="card" style="margin-top:1.25rem;">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">Bourses et Exonérations</h3>
+                            <button class="btn btn-primary" onclick="openExemptionModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                                + Ajouter une Exonération
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%;border-collapse:collapse;">
+                                    <thead>
+                                        <tr style="background:linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%);color:var(--white);">
+                                            <th style="padding:1rem;text-align:left;border-radius:8px 0 0 0;">Élève</th>
+                                            <th style="padding:1rem;text-align:left;">Classe</th>
+                                            <th style="padding:1rem;text-align:center;">Pourcentage</th>
+                                            <th style="padding:1rem;text-align:left;">Raison</th>
+                                            <th style="padding:1rem;text-align:left;">Approuvé par</th>
+                                            <th style="padding:1rem;text-align:center;border-radius:0 8px 0 0;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="exemptions-tbody">
+                                        <!-- Populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:1.25rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">Enregistrer un Paiement</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Élève</label>
+                                    <select class="form-input" id="payment-student-select" style="padding:0.75rem;"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Montant (FCFA)</label>
+                                    <input type="number" class="form-input" id="payment-amount" placeholder="Ex: 25000" min="0" style="padding:0.75rem;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-input" id="payment-date" style="padding:0.75rem;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label class="form-label">Mode</label>
+                                    <select class="form-input" id="payment-method" style="padding:0.75rem;">
+                                        <option value="Espèces">Espèces</option>
+                                        <option value="Mobile Money">Mobile Money</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Chèque">Chèque</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="savePayment()" style="width:auto;padding:0.7rem 1.75rem;">💰 Enregistrer</button>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top:1.25rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">Historique des Paiements</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%;border-collapse:collapse;">
+                                    <thead>
+                                        <tr style="background:linear-gradient(135deg,var(--earth) 0%,var(--savanna) 100%);color:#fff;">
+                                            <th style="padding:0.85rem 1rem;text-align:left;border-radius:8px 0 0 0;">#</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Élève</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Matricule</th>
+                                            <th style="padding:0.85rem 1rem;text-align:right;">Ce Paiement</th>
+                                            <th style="padding:0.85rem 1rem;text-align:right;">Total Payé</th>
+                                            <th style="padding:0.85rem 1rem;text-align:right;">Reste</th>
+                                            <th style="padding:0.85rem 1rem;text-align:left;">Date</th>
+                                            <th style="padding:0.85rem 1rem;text-align:center;">Mode</th>
+                                            <th style="padding:0.85rem 1rem;text-align:center;border-radius:0 8px 0 0;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payments-econome-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HIDDEN RECEIPT CARD (shown only when printing) -->
+                <div id="payment-receipt-card" style="display:none;margin-top:1.5rem;">
+                    <div id="payment-receipt-printable" style="background:#fff;border:2px solid var(--border);border-radius:12px;padding:2rem;max-width:600px;margin:0 auto;position:relative;">
+                        <!-- Watermark Logo -->
+                        <div id="receipt-watermark" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:350px;height:350px;opacity:0.05;z-index:0;pointer-events:none;display:none;">
+                            <img id="receipt-watermark-img" src="" style="width:100%;height:100%;object-fit:contain;">
+                        </div>
+                        <!-- Receipt Header -->
+                        <div style="text-align:center;border-bottom:3px solid var(--earth);padding-bottom:1.25rem;margin-bottom:1.5rem;">
+                            <div style="font-size:1.8rem;font-weight:700;color:var(--earth);margin-bottom:0.5rem;">REÇU DE PAIEMENT</div>
+                            <div style="font-size:0.95rem;color:var(--gray-text);">École Numérique — Burkina Faso</div>
+                            <div style="font-size:0.85rem;color:var(--gray-text);margin-top:0.25rem;" id="receipt-number"></div>
+                        </div>
+
+                        <!-- Student Info -->
+                        <div style="background:var(--light-bg);padding:1.25rem;border-radius:8px;margin-bottom:1.5rem;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                <div>
+                                    <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:0.25rem;">Élève</div>
+                                    <div style="font-weight:700;font-size:1.1rem;color:var(--dark-text);" id="receipt-student-name"></div>
+                                </div>
+                                <div>
+                                    <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:0.25rem;">Matricule</div>
+                                    <div style="font-weight:600;font-size:1rem;color:var(--dark-text);" id="receipt-student-matricule"></div>
+                                </div>
+                                <div>
+                                    <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:0.25rem;">Classe</div>
+                                    <div style="font-weight:600;font-size:1rem;color:var(--dark-text);" id="receipt-student-class"></div>
+                                </div>
+                                <div>
+                                    <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:0.25rem;">Date & Heure</div>
+                                    <div style="font-weight:600;font-size:0.95rem;color:var(--dark-text);" id="receipt-datetime"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Details -->
+                        <div style="border:2px solid var(--earth);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                                <div style="font-size:0.95rem;color:var(--gray-text);">Montant Payé:</div>
+                                <div style="font-size:2rem;font-weight:700;color:var(--green);" id="receipt-amount"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--border);">
+                                <div style="font-size:0.9rem;color:var(--gray-text);">Mode de Paiement:</div>
+                                <div style="font-weight:600;font-size:1rem;color:var(--dark-text);" id="receipt-method"></div>
+                            </div>
+                        </div>
+
+                        <!-- Balance Summary (shown only if fee is set) -->
+                        <div id="receipt-balance-section" style="display:none;background:var(--light-bg);padding:1.25rem;border-radius:8px;margin-bottom:1.5rem;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                                <div style="font-size:0.9rem;color:var(--gray-text);">Frais Total:</div>
+                                <div style="font-weight:600;font-size:1rem;color:var(--dark-text);" id="receipt-total-fee"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                                <div style="font-size:0.9rem;color:var(--gray-text);">Total Payé:</div>
+                                <div style="font-weight:700;font-size:1rem;color:var(--green);" id="receipt-total-paid"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.75rem;border-top:2px solid var(--border);">
+                                <div style="font-size:1rem;font-weight:700;color:var(--dark-text);">Reste à Payer:</div>
+                                <div style="font-weight:700;font-size:1.3rem;" id="receipt-balance"></div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="text-align:center;padding-top:1.5rem;border-top:2px solid var(--border);">
+                            <div style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.5rem;">Signature de l'Économe</div>
+                            <div id="receipt-signature-container" style="min-height:60px;width:250px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;">
+                                <img id="receipt-signature-img" src="" style="max-width:100%;max-height:60px;display:none;">
+                            </div>
+                            <div style="font-size:0.75rem;color:var(--gray-text);">
+                                Ce reçu est valable sans signature ni cachet • Année Scolaire 2024–2025
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARENT VIEW: own children only -->
+                <div id="payments-parent-view" style="display:none;">
+                    <div id="payments-parent-cards"></div>
+                </div>
+            </section>
+
+            <!-- Configuration Section (Admin Only) -->
+            <section id="config-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">⚙️ Configuration de l'École</h1>
+                </div>
+
+                <!-- School Logo Configuration -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Logo de l'École</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex;gap:2rem;align-items:start;flex-wrap:wrap;">
+                            <div style="flex:1;min-width:300px;">
+                                <label class="form-label">URL du Logo</label>
+                                <p style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.75rem;">
+                                    Le logo apparaîtra comme filigrane sur les bulletins et reçus de paiement lors de l'impression.
+                                </p>
+                                <input type="text" class="form-input" id="logo-url-config" placeholder="https://example.com/logo.png" style="margin-bottom:1rem;">
+                                
+                                <label class="form-label">Ou télécharger un fichier:</label>
+                                <input type="file" class="form-input" id="logo-file-config" accept="image/*" style="margin-bottom:1.5rem;">
+                                
+                                <button class="btn btn-primary" onclick="saveLogoConfig()" style="width:auto;padding:0.75rem 1.75rem;">
+                                    💾 Enregistrer le Logo
+                                </button>
+                            </div>
+                            <div style="flex:0 0 220px;">
+                                <div style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.5rem;font-weight:600;">Aperçu:</div>
+                                <div id="logo-preview-config" style="width:220px;height:220px;border:2px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--light-bg);overflow:hidden;">
+                                    <span style="color:var(--gray-text);font-size:0.85rem;text-align:center;padding:1rem;">Aucun logo</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top:1.5rem;padding:1.25rem;background:var(--light-bg);border-radius:8px;border-left:4px solid var(--sky);">
+                            <div style="font-size:0.9rem;color:var(--dark-text);margin-bottom:0.5rem;font-weight:600;">
+                                💡 Où apparaît le logo?
+                            </div>
+                            <ul style="margin:0;padding-left:1.5rem;color:var(--gray-text);font-size:0.85rem;line-height:1.8;">
+                                <li>Sur les bulletins imprimés (filigrane centré, opacité 5%)</li>
+                                <li>Sur les reçus de paiement imprimés (filigrane centré, opacité 5%)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- School Information Configuration -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🏫 Informations de l'École</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label">Nom de l'École</label>
+                                <input type="text" class="form-input" id="school-name-config" placeholder="Ex: École Primaire Publique de...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Année Scolaire</label>
+                                <input type="text" class="form-input" id="academic-year-config" placeholder="Ex: 2024-2025">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Adresse</label>
+                                <input type="text" class="form-input" id="school-address-config" placeholder="Ex: Secteur 15, Ouagadougou">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Téléphone</label>
+                                <input type="tel" class="form-input" id="school-phone-config" placeholder="Ex: +226 XX XX XX XX">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="school-email-config" placeholder="Ex: contact@ecole.bf">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date de début de l'année scolaire</label>
+                                <input type="date" class="form-input" id="school-year-start-config">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nom du Directeur/Directrice</label>
+                                <input type="text" class="form-input" id="headmaster-name-config" placeholder="Ex: M. Ouédraogo Ibrahim">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSchoolInfo()" style="margin-top:1.5rem;padding:0.75rem 1.75rem;">
+                            💾 Enregistrer les Informations
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Headmaster Signature Configuration -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">✍️ Signature du Directeur</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex;gap:2rem;align-items:start;flex-wrap:wrap;">
+                            <div style="flex:1;min-width:300px;">
+                                <label class="form-label">URL de la Signature</label>
+                                <p style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.75rem;">
+                                    La signature apparaîtra sur les bulletins imprimés.
+                                </p>
+                                <input type="text" class="form-input" id="headmaster-signature-url-config" placeholder="https://example.com/signature.png" style="margin-bottom:1rem;">
+                                
+                                <label class="form-label">Ou télécharger un fichier:</label>
+                                <input type="file" class="form-input" id="headmaster-signature-file-config" accept="image/*" style="margin-bottom:1.5rem;">
+                                
+                                <button class="btn btn-primary" onclick="saveHeadmasterSignature()" style="width:auto;padding:0.75rem 1.75rem;">
+                                    ✍️ Enregistrer la Signature
+                                </button>
+                            </div>
+                            <div style="flex:0 0 220px;">
+                                <div style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.5rem;font-weight:600;">Aperçu:</div>
+                                <div id="headmaster-signature-preview" style="width:220px;height:100px;border:2px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--light-bg);overflow:hidden;">
+                                    <span style="color:var(--gray-text);font-size:0.85rem;text-align:center;padding:1rem;">Aucune signature</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2: Class Management -->
+                <div class="card">
+                    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                        <h3 class="card-title">🏫 Gestion des Classes</h3>
+                        <button class="btn btn-primary" onclick="openClassModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                            + Ajouter une Classe
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;">
+                                <thead>
+                                    <tr style="background:linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%);color:var(--white);">
+                                        <th style="padding:1rem;text-align:left;border-radius:8px 0 0 0;">Nom de la Classe</th>
+                                        <th style="padding:1rem;text-align:left;">Niveau</th>
+                                        <th style="padding:1rem;text-align:left;">Enseignant</th>
+                                        <th style="padding:1rem;text-align:center;">Capacité Max</th>
+                                        <th style="padding:1rem;text-align:center;">Nb. Élèves</th>
+                                        <th style="padding:1rem;text-align:center;border-radius:0 8px 0 0;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="class-management-tbody">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2: Subject Management -->
+                <div class="card">
+                    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                        <h3 class="card-title">📚 Gestion des Matières</h3>
+                        <button class="btn btn-primary" onclick="openSubjectModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                            + Ajouter une Matière
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;">
+                                <thead>
+                                    <tr style="background:linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%);color:var(--white);">
+                                        <th style="padding:1rem;text-align:left;border-radius:8px 0 0 0;">Matière</th>
+                                        <th style="padding:1rem;text-align:center;">Coefficient</th>
+                                        <th style="padding:1rem;text-align:left;">Niveaux</th>
+                                        <th style="padding:1rem;text-align:center;border-radius:0 8px 0 0;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subject-management-tbody">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Econome Signature Configuration -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Signature de l'Économe</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex;gap:2rem;align-items:start;flex-wrap:wrap;">
+                            <div style="flex:1;min-width:300px;">
+                                <label class="form-label">URL de la Signature</label>
+                                <p style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.75rem;">
+                                    La signature apparaîtra sur tous les reçus de paiement imprimés.
+                                </p>
+                                <input type="text" class="form-input" id="signature-url-config" placeholder="https://example.com/signature.png" style="margin-bottom:1rem;">
+                                
+                                <label class="form-label">Ou télécharger un fichier:</label>
+                                <input type="file" class="form-input" id="signature-file-config" accept="image/*" style="margin-bottom:1.5rem;">
+                                
+                                <button class="btn btn-primary" onclick="saveSignatureConfig()" style="width:auto;padding:0.75rem 1.75rem;">
+                                    ✍️ Enregistrer la Signature
+                                </button>
+                            </div>
+                            <div style="flex:0 0 220px;">
+                                <div style="font-size:0.85rem;color:var(--gray-text);margin-bottom:0.5rem;font-weight:600;">Aperçu:</div>
+                                <div id="signature-preview-config" style="width:220px;height:100px;border:2px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--light-bg);overflow:hidden;">
+                                    <span style="color:var(--gray-text);font-size:0.85rem;text-align:center;padding:1rem;">Aucune signature</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top:1.5rem;padding:1.25rem;background:var(--light-bg);border-radius:8px;border-left:4px solid var(--terracotta);">
+                            <div style="font-size:0.9rem;color:var(--dark-text);margin-bottom:0.5rem;font-weight:600;">
+                                💡 Conseil
+                            </div>
+                            <p style="margin:0;color:var(--gray-text);font-size:0.85rem;line-height:1.8;">
+                                Pour un meilleur résultat, utilisez une image avec fond transparent (PNG) montrant uniquement la signature manuscrite.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 3: Communications Section -->
+            <section id="communications-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">💬 Communications</h1>
+                </div>
+
+                <!-- Admin View: Announcements + Messages -->
+                <div id="communications-admin-view" style="display:none;">
+                    <!-- Announcements Card -->
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">📢 Annonces</h3>
+                            <button class="btn btn-primary" onclick="openAnnouncementModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                                + Nouvelle Annonce
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="announcements-list" style="display:flex;flex-direction:column;gap:1rem;">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages Card -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">✉️ Messages</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="admin-messages-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teacher View: Messages to/from parents -->
+                <div id="communications-teacher-view" style="display:none;">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">✉️ Mes Messages</h3>
+                            <button class="btn btn-primary" onclick="openMessageModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                                + Nouveau Message
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="teacher-messages-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Announcements (read-only for teachers) -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">📢 Annonces de l'École</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="teacher-announcements-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parent View: Messages from teachers + Announcements -->
+                <div id="communications-parent-view" style="display:none;">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">✉️ Mes Messages</h3>
+                            <button class="btn btn-primary" onclick="openMessageModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                                + Nouveau Message
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="parent-messages-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Announcements (read-only for parents) -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">📢 Annonces de l'École</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="parent-announcements-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 4: Homework/Assignments Section -->
+            <section id="homework-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">📚 Devoirs et Travaux</h1>
+                </div>
+
+                <!-- Teacher View -->
+                <div id="homework-teacher-view" style="display:none;">
+                    <div class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">Mes Devoirs Assignés</h3>
+                            <button class="btn btn-primary" onclick="openHomeworkModal()" style="width:auto;padding:0.75rem 1.5rem;">
+                                + Nouveau Devoir
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="teacher-homework-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parent View -->
+                <div id="homework-parent-view" style="display:none;">
+                    <div id="parent-homework-cards">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Announcements Section (Student - Read Only) -->
+            <section id="announcements-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">📢 Annonces de l'École</h1>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Annonces Officielles</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="student-announcements-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Archives Section (Admin Only) -->
+            <section id="archives-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">📚 Archives des Anciens Élèves</h1>
+                </div>
+
+                <!-- Info Card -->
+                <div class="card" style="margin-bottom:1.5rem;border-left:4px solid var(--sky);">
+                    <div class="card-body">
+                        <div style="display:flex;gap:1rem;align-items:start;">
+                            <div style="font-size:2rem;">ℹ️</div>
+                            <div>
+                                <div style="font-weight:600;margin-bottom:0.5rem;color:var(--dark-text);">Archivage Automatique</div>
+                                <p style="margin:0;color:var(--gray-text);font-size:0.9rem;line-height:1.6;">
+                                    Les élèves sont automatiquement archivés s'ils restent inactifs pendant 3 mois après le début de l'année scolaire.
+                                    Vous pouvez aussi archiver manuellement les élèves diplômés ou transférés.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recherche</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;align-items:end;">
+                            <div class="form-group">
+                                <label class="form-label">Rechercher par Nom ou Matricule</label>
+                                <input type="text" class="form-input" id="archive-search" placeholder="Ex: Ouédraogo ou 2025ELEVE001" oninput="filterArchives()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Année</label>
+                                <select class="form-input" id="archive-year-filter" onchange="filterArchives()">
+                                    <option value="">Toutes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Raison</label>
+                                <select class="form-input" id="archive-reason-filter" onchange="filterArchives()">
+                                    <option value="">Toutes</option>
+                                    <option value="Diplômé">Diplômé</option>
+                                    <option value="Transféré">Transféré</option>
+                                    <option value="Inactif">Inactif (3 mois)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" onclick="loadArchives()" style="width:100%;padding:0.75rem;">
+                                    🔄 Actualiser
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archived Students Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Anciens Élèves</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;">
+                                <thead id="archive-table-header">
+                                    <tr style="background:linear-gradient(135deg, var(--earth) 0%, var(--savanna) 100%);color:var(--white);">
+                                        <th style="padding:1rem;text-align:left;border-radius:8px 0 0 0;width:50px;">#</th>
+                                        <th style="padding:1rem;text-align:left;">Nom Complet</th>
+                                        <th style="padding:1rem;text-align:left;">Matricule</th>
+                                        <th style="padding:1rem;text-align:center;">Sexe</th>
+                                        <th style="padding:1rem;text-align:left;">Date de Naissance</th>
+                                        <th style="padding:1rem;text-align:left;">Dernière Classe</th>
+                                        <th style="padding:1rem;text-align:left;">Raison</th>
+                                        <th style="padding:1rem;text-align:left;">Année</th>
+                                        <th style="padding:1rem;text-align:left;">👨‍👩‍👧 Parent</th>
+                                        <th style="padding:1rem;text-align:left;">📞 Téléphone</th>
+                                        <th style="padding:1rem;text-align:center;border-radius:0 8px 0 0;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="archive-table-body">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section (Parent Only) -->
+            <section id="profile-section" class="content-section">
+                <div class="header">
+                    <h1 class="header-title">👤 Mon Profil</h1>
+                </div>
+
+                <!-- Change Password Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Changer le Mot de Passe</h3>
+                    </div>
+                    <div class="card-body">
+                        <form onsubmit="changePassword(event)" style="max-width:500px;">
+                            <div class="form-group">
+                                <label class="form-label">Mot de passe actuel</label>
+                                <input type="password" class="form-input" id="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nouveau mot de passe</label>
+                                <input type="password" class="form-input" id="new-password" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirmer le nouveau mot de passe</label>
+                                <input type="password" class="form-input" id="confirm-password" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:auto;padding:0.75rem 1.75rem;">
+                                🔒 Changer le Mot de Passe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Personal Information Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informations Personnelles</h3>
+                    </div>
+                    <div class="card-body">
+                        <form onsubmit="updateParentInfo(event)" style="max-width:600px;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Nom Complet</label>
+                                    <input type="text" class="form-input" id="parent-fullname" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nom d'utilisateur</label>
+                                    <input type="text" class="form-input" id="parent-username" required readonly style="background:var(--light-bg);cursor:not-allowed;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Téléphone</label>
+                                <input type="tel" class="form-input" id="parent-phone" placeholder="+226 XX XX XX XX">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="parent-email" placeholder="exemple@mail.com">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:auto;padding:0.75rem 1.75rem;">
+                                💾 Enregistrer les Modifications
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Children Info (Read-only) -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Mes Enfants</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="profile-children-list"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Student Modal -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="student-modal-title">Enregistrer un Élève</h3>
+                <button class="modal-close" onclick="closeStudentModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray-text);">×</button>
+            </div>
+            <form id="student-form" onsubmit="saveStudent(event)">
+                <input type="hidden" id="student-id">
+                <div class="form-group">
+                    <label class="form-label">Nom Complet de l'Élève</label>
+                    <input type="text" class="form-input" id="student-name" placeholder="Ex: Ouédraogo Aminata" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Matricule</label>
+                    <div id="student-matricule" style="padding:0.75rem 1rem;background:var(--light-bg);border:1px solid var(--border);border-radius:8px;color:var(--gray-text);font-style:italic;font-size:0.92rem;min-height:2.75rem;display:flex;align-items:center;gap:0.6rem;">
+                        <span style="font-size:1.1rem;">🔢</span>
+                        <span id="student-matricule-text">Génération automatique lors de l'enregistrement</span>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Sexe</label>
+                        <select class="form-input" id="student-sex" required>
+                            <option value="">Sélectionner</option>
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date de Naissance</label>
+                        <input type="date" class="form-input" id="student-birthdate" required>
+                    </div>
+                </div>
+                <!-- Contact des Parents -->
+                <div style="border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1rem 0; margin-bottom: 0.5rem;">
+                    <label class="form-label" style="font-weight: 700; color: var(--earth); margin-bottom: 0.75rem; display: block;">👨‍👩‍👧 Contact des Parents</label>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Nom du Parent</label>
+                            <input type="text" class="form-input" id="student-parent-name" placeholder="Ex: Ouédraogo Seydou">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Relation</label>
+                            <select class="form-input" id="student-parent-relation">
+                                <option value="">—</option>
+                                <option value="Père">Père</option>
+                                <option value="Mère">Mère</option>
+                                <option value="Tuteur">Tuteur</option>
+                                <option value="Tutrice">Tutrice</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Numéro de Téléphone</label>
+                            <input type="tel" class="form-input" id="student-parent-phone" placeholder="Ex: +226 XX XX XX XX">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="student-parent-email" placeholder="Ex: ouédraogo@mail.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4: Health Records (Optional) -->
+                <div style="border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1rem 0; margin-bottom: 0.5rem;">
+                    <label class="form-label" style="font-weight: 700; color: var(--earth); margin-bottom: 0.75rem; display: block;">🏥 Dossier Médical (Optionnel)</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Groupe Sanguin</label>
+                            <select class="form-input" id="student-blood-type">
+                                <option value="">—</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contact d'Urgence</label>
+                            <input type="tel" class="form-input" id="student-emergency-contact" placeholder="+226 XX XX XX XX">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Allergies</label>
+                        <input type="text" class="form-input" id="student-allergies" placeholder="Ex: Arachides, Pénicilline">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Conditions Médicales</label>
+                        <input type="text" class="form-input" id="student-medical-conditions" placeholder="Ex: Asthme, Diabète">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Médicaments Réguliers</label>
+                        <input type="text" class="form-input" id="student-medications" placeholder="Ex: Ventoline">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Classe</label>
+                    <select class="form-input" id="student-class" required>
+                        <option value="">Sélectionner une classe</option>
+                        <option value="CP1">CP1 (Cours Préparatoire 1)</option>
+                        <option value="CP2">CP2 (Cours Préparatoire 2)</option>
+                        <option value="CE1">CE1 (Cours Élémentaire 1)</option>
+                        <option value="CE2">CE2 (Cours Élémentaire 2)</option>
+                        <option value="CM1">CM1 (Cours Moyen 1)</option>
+                        <option value="CM2">CM2 (Cours Moyen 2)</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">💾 Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeStudentModal()" style="flex: 1; background: var(--border); color: var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Teacher Modal -->
+    <div id="teacher-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="teacher-modal-title">Ajouter un Enseignant</h3>
+                <button class="modal-close" onclick="closeTeacherModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray-text);">×</button>
+            </div>
+            <form id="teacher-form" onsubmit="saveTeacher(event)">
+                <input type="hidden" id="teacher-id">
+                <div class="form-group">
+                    <label class="form-label">Nom Complet de l'Enseignant</label>
+                    <input type="text" class="form-input" id="teacher-fullname" placeholder="Ex: M. Konaté Abdoulaye" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Matricule</label>
+                    <div id="teacher-matricule" style="padding:0.75rem 1rem;background:var(--light-bg);border:1px solid var(--border);border-radius:8px;color:var(--gray-text);font-style:italic;font-size:0.92rem;min-height:2.75rem;display:flex;align-items:center;gap:0.6rem;">
+                        <span style="font-size:1.1rem;">🔢</span>
+                        <span id="teacher-matricule-text">Génération automatique lors de l'enregistrement</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sexe</label>
+                    <select class="form-input" id="teacher-sex" required>
+                        <option value="">Sélectionner</option>
+                        <option value="M">Masculin</option>
+                        <option value="F">Féminin</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Numéro de Téléphone</label>
+                        <input type="tel" class="form-input" id="teacher-phone" placeholder="Ex: +226 XX XX XX XX">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="teacher-email" placeholder="Ex: konaté@école.bf">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-input" id="teacher-username" placeholder="Ex: teacher1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <input type="password" class="form-input" id="teacher-password" placeholder="Mot de passe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Assigner une Classe</label>
+                    <select class="form-input" id="teacher-classid">
+                        <option value="">Aucune classe assignée</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">💾 Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeTeacherModal()" style="flex: 1; background: var(--border); color: var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Styles -->
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
+        
+        .modal-title {
+            font-family: 'Anybody', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--earth);
+        }
+        
+        .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
+
+    <!-- Class Management Modal -->
+    <div id="class-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="class-modal-title">Ajouter une Classe</h3>
+                <button class="modal-close" onclick="closeClassModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="class-form" onsubmit="saveClass(event)">
+                <input type="hidden" id="class-id">
+                <div class="form-group">
+                    <label class="form-label">Nom de la Classe</label>
+                    <input type="text" class="form-input" id="class-name" placeholder="Ex: CM1 A" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Niveau</label>
+                    <select class="form-input" id="class-level" required>
+                        <option value="">Sélectionner</option>
+                        <option value="CP1">CP1</option>
+                        <option value="CP2">CP2</option>
+                        <option value="CE1">CE1</option>
+                        <option value="CE2">CE2</option>
+                        <option value="CM1">CM1</option>
+                        <option value="CM2">CM2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Capacité Maximum (optionnel)</label>
+                    <input type="number" class="form-input" id="class-capacity" placeholder="Ex: 40" min="1">
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">💾 Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeClassModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Subject Management Modal -->
+    <div id="subject-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="subject-modal-title">Ajouter une Matière</h3>
+                <button class="modal-close" onclick="closeSubjectModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="subject-form" onsubmit="saveSubject(event)">
+                <input type="hidden" id="subject-id">
+                <div class="form-group">
+                    <label class="form-label">Nom de la Matière</label>
+                    <input type="text" class="form-input" id="subject-name" placeholder="Ex: Histoire-Géographie" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Coefficient</label>
+                    <input type="number" class="form-input" id="subject-coefficient" placeholder="Ex: 2" min="1" max="5" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Niveaux concernés (maintenir Ctrl pour sélection multiple)</label>
+                    <select class="form-input" id="subject-levels" multiple style="height:120px;">
+                        <option value="CP1">CP1</option>
+                        <option value="CP2">CP2</option>
+                        <option value="CE1">CE1</option>
+                        <option value="CE2">CE2</option>
+                        <option value="CM1">CM1</option>
+                        <option value="CM2">CM2</option>
+                    </select>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">💾 Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeSubjectModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fee Exemption Modal -->
+    <div id="exemption-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Ajouter une Exonération/Bourse</h3>
+                <button class="modal-close" onclick="closeExemptionModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="exemption-form" onsubmit="saveExemption(event)">
+                <div class="form-group">
+                    <label class="form-label">Élève</label>
+                    <select class="form-input" id="exemption-student-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pourcentage d'Exonération (%)</label>
+                    <input type="number" class="form-input" id="exemption-percentage" placeholder="Ex: 50" min="1" max="100" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Raison</label>
+                    <select class="form-input" id="exemption-reason">
+                        <option value="Bourse d'Excellence">Bourse d'Excellence</option>
+                        <option value="Bourse Sociale">Bourse Sociale</option>
+                        <option value="Bourse Sportive">Bourse Sportive</option>
+                        <option value="Orphelin">Orphelin</option>
+                        <option value="Famille Nombreuse">Famille Nombreuse</option>
+                        <option value="Personnel de l'École">Personnel de l'École</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Approuvé par</label>
+                    <input type="text" class="form-input" id="exemption-approved-by" placeholder="Ex: Directeur" required>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">💾 Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeExemptionModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div id="announcement-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nouvelle Annonce</h3>
+                <button class="modal-close" onclick="closeAnnouncementModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="announcement-form" onsubmit="saveAnnouncement(event)">
+                <div class="form-group">
+                    <label class="form-label">Titre</label>
+                    <input type="text" class="form-input" id="announcement-title" placeholder="Ex: Réunion parents-professeurs" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Destinataires</label>
+                    <select class="form-input" id="announcement-target" required>
+                        <option value="all">Tous (Enseignants, Parents, Élèves)</option>
+                        <option value="teacher">Enseignants seulement</option>
+                        <option value="parent">Parents seulement</option>
+                        <option value="student">Élèves seulement</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" id="announcement-content" rows="5" placeholder="Contenu de l'annonce..." required></textarea>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">📢 Publier l'Annonce</button>
+                    <button type="button" class="btn-secondary" onclick="closeAnnouncementModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nouveau Message</h3>
+                <button class="modal-close" onclick="closeMessageModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="message-form" onsubmit="saveMessage(event)">
+                <div class="form-group">
+                    <label class="form-label">Destinataire</label>
+                    <select class="form-input" id="message-recipient" required>
+                        <option value="">Sélectionner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sujet</label>
+                    <input type="text" class="form-input" id="message-subject" placeholder="Ex: Question sur les devoirs" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" id="message-content" rows="6" placeholder="Votre message..." required></textarea>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">✉️ Envoyer</button>
+                    <button type="button" class="btn-secondary" onclick="closeMessageModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Test Score Modal -->
+    <div id="test-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Ajouter une Évaluation</h3>
+                <button class="modal-close" onclick="closeTestModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="test-form" onsubmit="saveTest(event)">
+                <input type="hidden" id="test-id">
+                <div class="form-group">
+                    <label class="form-label">Élève</label>
+                    <select class="form-input" id="test-student" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Matière</label>
+                    <select class="form-input" id="test-subject" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nom de l'Évaluation</label>
+                    <input type="text" class="form-input" id="test-name" placeholder="Ex: Devoir 1, Composition Trim 1" required>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="form-input" id="test-type" required>
+                            <option value="Devoir">Devoir</option>
+                            <option value="Interrogation">Interrogation</option>
+                            <option value="Composition">Composition</option>
+                            <option value="Examen">Examen</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trimestre</label>
+                        <select class="form-input" id="test-trimester" required>
+                            <option value="1">Trimestre 1</option>
+                            <option value="2">Trimestre 2</option>
+                            <option value="3">Trimestre 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Note obtenue</label>
+                        <input type="number" class="form-input" id="test-score" min="0" step="0.5" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Note max</label>
+                        <input type="number" class="form-input" id="test-max-score" value="20" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-input" id="test-date" required>
+                    </div>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">💾 Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeTestModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Discipline Modal -->
+    <div id="discipline-modal" class="modal">
+        <div class="modal-content" style="max-width:700px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="discipline-modal-title">Gestion Disciplinaire</h3>
+                <button class="modal-close" onclick="closeDisciplineModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <div style="padding:2rem;">
+                <!-- Add Record Form -->
+                <div style="background:var(--light-bg);padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;">
+                    <h4 style="margin:0 0 1rem 0;color:var(--dark-text);">Ajouter un Enregistrement</h4>
+                    <form id="discipline-form" onsubmit="saveDisciplineRecord(event)">
+                        <input type="hidden" id="discipline-student-id">
+                        <div class="form-group">
+                            <label class="form-label">Type</label>
+                            <select class="form-input" id="discipline-type" required>
+                                <option value="Avertissement">⚠️ Avertissement</option>
+                                <option value="Sanction">🚫 Sanction</option>
+                                <option value="Félicitations">⭐ Félicitations</option>
+                                <option value="Encouragement">👍 Encouragement</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gravité (pour sanctions/avertissements)</label>
+                            <select class="form-input" id="discipline-severity">
+                                <option value="">N/A</option>
+                                <option value="Mineur">Mineur</option>
+                                <option value="Moyen">Moyen</option>
+                                <option value="Grave">Grave</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input" id="discipline-description" rows="3" placeholder="Décrire l'incident ou le mérite..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">💾 Ajouter</button>
+                    </form>
+                </div>
+
+                <!-- Existing Records -->
+                <div>
+                    <h4 style="margin:0 0 1rem 0;color:var(--dark-text);">Historique</h4>
+                    <div id="discipline-records-list" style="max-height:300px;overflow-y:auto;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Merit Points Display -->
+                <div style="margin-top:1.5rem;padding:1rem;background:linear-gradient(135deg, var(--green) 0%, var(--earth) 100%);border-radius:8px;color:var(--white);text-align:center;">
+                    <div style="font-size:0.85rem;opacity:0.9;">Points de Mérite</div>
+                    <div style="font-size:2rem;font-weight:700;" id="discipline-merit-points">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Homework Modal -->
+    <div id="homework-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nouveau Devoir</h3>
+                <button class="modal-close" onclick="closeHomeworkModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <form id="homework-form" onsubmit="saveHomework(event)">
+                <div class="form-group">
+                    <label class="form-label">Matière</label>
+                    <select class="form-input" id="homework-subject" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Titre du Devoir</label>
+                    <input type="text" class="form-input" id="homework-title" placeholder="Ex: Exercices page 45-47" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input" id="homework-description" rows="4" placeholder="Instructions détaillées..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date Limite</label>
+                    <input type="date" class="form-input" id="homework-due-date" required>
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">📚 Assigner</button>
+                    <button type="button" class="btn-secondary" onclick="closeHomeworkModal()" style="flex:1;background:var(--border);color:var(--dark-text);">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Archive Record Modal -->
+    <div id="archive-modal" class="modal">
+        <div class="modal-content" style="max-width:900px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="archive-modal-title">📋 Dossier Archivé</h3>
+                <button class="modal-close" onclick="closeArchiveModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-text);">×</button>
+            </div>
+            <div id="archive-modal-content" style="padding:2rem;max-height:70vh;overflow-y:auto;">
+                <!-- Content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Application JS — load in order, all code is verbatim from original -->
+    <script src="js/01-state.js"></script>
+    <script src="js/02-auth-navigation.js"></script>
+    <script src="js/03-dashboard.js"></script>
+    <script src="js/04-students-teachers.js"></script>
+    <script src="js/05-grades-absences.js"></script>
+    <script src="js/06-schedule.js"></script>
+    <script src="js/07-payments.js"></script>
+    <script src="js/08-archives-reports.js"></script>
+    <script src="js/09-classes-subjects-fees.js"></script>
+    <script src="js/10-communications-tests-discipline.js"></script>
+    <script src="js/11-homework-health.js"></script>
+    <script src="js/12-student-portal.js"></script>
+    <script src="js/13-utils-charts.js"></script>
+
+    <script>
+        // Initialize on page load (originally at bottom of inline script block)
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+        });
+    </script>
+</body>
+</html>
